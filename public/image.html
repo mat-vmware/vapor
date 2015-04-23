@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vapor</title>
+    <!-- Not present in the tutorial. Just for basic styling. -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.0/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+  </head>
+  <body>
+    <div id="content" class="container"></div>
+
+    <script type="text/jsx">
+      var Image = React.createClass({
+        getInitialState: function() {
+          return {
+            name: 'images',
+            value: []
+          };
+        },
+  
+        componentDidMount: function() {
+          $.get(this.props.source, function(result) {
+            this.setState({
+              name: 'images', 
+              value:  result}); 
+          }.bind(this));
+        },
+
+        render: function() {
+          return (
+            <table className="table table-striped">
+              <thead><tr><th>Name</th><th>Action</th></tr></thead>
+              <tbody>
+              {this.state.value.map(function(image) {
+                return <tr><td>{image}</td><td><span className="glyphicon glyphicon-play" aria-hidden="true"></span></td></tr>
+              })}
+              </tbody>
+            </table>
+          );
+        }
+      });
+
+      React.render(
+        // <h1>Hello, images!</h1>,
+        // React.createElement('h1', null, 'Hello, images!'),
+        // <Image source="http://10.117.5.68:8000/image" />,
+        <Image source="/image" />,
+        document.getElementById('content')
+      );  
+    </script>
+  </body>
+</html>
