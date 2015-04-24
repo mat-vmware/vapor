@@ -12,7 +12,26 @@
     <script src="scripts/bootstrap.js"></script>
   </head>
   <body>
-    <div id="content" class="container"></div>
+    <div class="container">
+      <ul id="mainTabs" class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#imagesTab">Images</a></li>
+        <li role="presentation"><a href="#vmsTab">VMs</a></li>
+        <li role="presentation"><a href="#networksTab">Networks</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="imagesTab">Images Coming Soon...</div>
+        <div role="tabpanel" class="tab-pane" id="vmsTab">VMs Coming Soon...</div>
+        <div role="tabpanel" class="tab-pane" id="networksTab">Networks Coming Soon...</div>
+      </div>
+    </div>
+
+    <script>
+      $('#mainTabs a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+    </script>
 
     <script type="text/jsx">
       var Image = React.createClass({
@@ -50,7 +69,7 @@
         // React.createElement('h1', null, 'Hello, images!'),
         // <Image source="http://10.117.5.68:8000/image" />,
         <Image source="/image" />,
-        document.getElementById('content')
+        document.getElementById('imagesTab')
       );  
     </script>
   </body>
