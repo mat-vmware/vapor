@@ -37,32 +37,38 @@ def comments_handler():
 @app.route('/image', methods=['GET'])
 def image():
     app.logger.debug('Geting images list...')
-
+    return Response(json.dumps([]), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
     # Get ServiceInstanceContent
-    si = SmartConnect(host='172.20.10.2',
-                      user='root',
-                      pwd='vmware')
-    if not si:  
-        return Response("Hi, guys. I'm sorry for that we can't connect to vcenter.")              
-    atexit.register(Disconnect, si)                                                                   
-    content = si.RetrieveContent()
-    app.logger.debug('Sucessfully got a vCenter connecton...')
+#    si = SmartConnect(host='172.20.10.2',
+#                      user='root',
+#                      pwd='vmware')
+#    if not si:  
+#        return Response(json.dumps([]), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
+#
+#    atexit.register(Disconnect, si)                                                                   
+#    content = si.RetrieveContent()
+#    app.logger.debug('Sucessfully got a vCenter connecton...')
+#
+#    # Look up templates under the specific '__vapor_templates'                                        
+#    images = []
+#    objView = content.viewManager.CreateContainerView(content.rootFolder,                             
+#                                                      [vim.Folder],
+#                                                      True)
+#    folderList = objView.view
+#    for folder in folderList:                                                                         
+#       if folder.name == '__vapor_templates':                                                         
+#          vmList = folder.childEntity                                                                 
+#          images.extend(vmList)                                                                    
+#          break                                                                                       
+#       else:                                                                                          
+#          continue                                                                                    
+#
+#    return Response(json.dumps(map(lambda x: {'name': x.name} ,images)), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
-    # Look up templates under the specific '__vapor_templates'                                        
-    images = []
-    objView = content.viewManager.CreateContainerView(content.rootFolder,                             
-                                                      [vim.Folder],
-                                                      True)
-    folderList = objView.view
-    for folder in folderList:                                                                         
-       if folder.name == '__vapor_templates':                                                         
-          vmList = folder.childEntity                                                                 
-          images.extend(vmList)                                                                    
-          break                                                                                       
-       else:                                                                                          
-          continue                                                                                    
+@app.route('/polling', methods=['GET'])
+def polling():
 
-    return Response(json.dumps(map(lambda x: {'name': x.name} ,images)), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
+    return Response(json.dumps({'value': 'Hello'}), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT",3000)))

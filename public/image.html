@@ -4,33 +4,60 @@
     <title>Vapor</title>
     <!-- Not present in the tutorial. Just for basic styling. -->
     <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.0/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.0/JSXTransformer.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="scripts/react.js"></script>
+    <script src="scripts/JSXTransformer.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/marked.min.js"></script>
     <script src="scripts/bootstrap.js"></script>
   </head>
   <body>
     <div class="container">
       <ul id="mainTabs" class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#imagesTab">Images</a></li>
-        <li role="presentation"><a href="#vmsTab">VMs</a></li>
-        <li role="presentation"><a href="#networksTab">Networks</a></li>
       </ul>
       
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="imagesTab">Images Coming Soon...</div>
+        <div role="tabpanel" class="tab-pane active" id="welcomeTab">Welcome</div>
+        <div role="tabpanel" class="tab-pane" id="imagesTab">Images Coming Soon...</div>
         <div role="tabpanel" class="tab-pane" id="vmsTab">VMs Coming Soon...</div>
         <div role="tabpanel" class="tab-pane" id="networksTab">Networks Coming Soon...</div>
+        <div role="tabpanel" class="tab-pane" id="pollingTab">
+        </div>
       </div>
     </div>
 
     <script>
+      var tabs = [
+        {link: '#welcomeTab', name: 'Welcome', active: true},
+        {link: '#imagesTab', name: 'Images', active: false},
+        {link: '#vmsTab', name: 'VMs', active: false},
+        {link: '#networksTab', name: 'Networks', active: false},
+        {link: '#pollingTab', name: 'Polling', active: false}
+      ];       
+
+      for (var i in tabs) {
+        console.log(i);
+        var active = tabs[i].active ? ' class="active"' : '';
+        $('#mainTabs').append('<li role="presentation"' + active + '><a href="' + tabs[i].link + '">' + tabs[i].name + '</a></li>');
+      }
+
       $('#mainTabs a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-      })
+        e.preventDefault();
+        $(this).tab('show');
+      });
+
+      (function poll() {
+        setTimeout(function() {
+          $.ajax({ 
+            url: "/polling", 
+            success: function(data) {
+              console.log(data);
+              $('#pollingTab').append('<div>' + data.value + '</div>');
+            }, 
+            dataType: "json", 
+            complete: poll });
+          }, 10000);
+      })();
     </script>
 
     <script type="text/jsx">
