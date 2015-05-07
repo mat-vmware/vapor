@@ -1,0 +1,14 @@
+DEFAULT menu.c32
+MENU TITLE ESXi-5.5-full Boot Menu
+NOHALT 1
+PROMPT 0
+TIMEOUT 80
+
+LABEL ESXi install
+ KERNEL /images/esxi/5.5/mboot.c32
+ APPEND -c /boot_configs/esxiserver01/boot.cfg
+MENU LABEL ESXi-5.5-full MAC ^Installer
+
+LABEL hddboot
+ LOCALBOOT 0x80
+MENU LABEL ^Boot from local disk
