@@ -11,6 +11,7 @@
 from datetime import datetime
 import json
 import os
+from subprocess import Popen, PIPE
 from flask import Flask, Response, request
 
 import atexit
@@ -26,6 +27,9 @@ def welcome():
 def esxiInstalled():
     mac = request.args.get('mac')
     print(mac)
+    p = Popen(["ssh", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null", "-o", "LogLevel=quiet", "root@172.20.10.101", "esxcli hardware platform get"], stdout=PIPE, stderr=PIPE)
+    out, error = p.communicate()
+    print(out)
     now = datetime.now()
     print(now.isoformat())
     return now.isoformat()
