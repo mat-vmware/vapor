@@ -18,16 +18,27 @@ import atexit
 
 
 app = Flask(__name__, static_url_path='', static_folder='public')
+app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
 
-@app.route("/")
-def welcome():
-    return "Welcome to Vapor!"
+@app.route('/host', methods=['GET', 'POST'])
+def addHosts():
+    if request.method == 'GET':
+        with open('hosts.json', 'r+') as file:
+            hosts = json.load(file)
+        print hosts
+        return Response(json.dumps(hosts), mimetype='application/json', headers={'Cache-Control': 'no-cache'}) 
+
+    if request.method == 'POST':
+        with open('hosts.json', 'w+') as file: 
+            file.write(json.dumps(hosts, indent=4, separators=(',', ': ')))
+        return 'Ok'
 
 @app.route("/esxi/installed")
 def esxiInstalled():
     mac = request.args.get('mac')
+    print(request.remote_addr)
     print(mac)
-    p = Popen(["ssh", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null", "-o", "LogLevel=quiet", "root@172.20.10.101", "esxcli hardware platform get"], stdout=PIPE, stderr=PIPE)
+    p = Popen(["ssh", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null", "-o", "LogLevel=quiet", "root@" + request.remote_addr, "esxcli hardware platform get"], stdout=PIPE, stderr=PIPE)
     out, error = p.communicate()
     print(out)
     now = datetime.now()

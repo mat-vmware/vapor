@@ -1,0 +1,1 @@
+[{"status": 1, "name": "esxi-001", "ip": "172.20.10.101", "netmask": "255.255.0.0", "mac": "00-50-56-99-d9-da", "gateway": "172.20.10.1"}, {"status": 2, "name": "esxi-002", "ip": "", "netmask": "", "mac": "00-50-56-99-4d-84", "gateway": ""}, {"status": 1, "name": "esxi-003", "ip": "", "netmask": "", "mac": "00-50-56-99-d9-ef", "gateway": ""}]
