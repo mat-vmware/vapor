@@ -25,8 +25,10 @@ def addHosts():
     if request.method == 'GET':
         with open('hosts.json', 'r+') as file:
             hosts = json.load(file)
-        print hosts
-        return Response(json.dumps(hosts), mimetype='application/json', headers={'Cache-Control': 'no-cache'}) 
+        data = {"data": hosts}
+
+        print data
+        return Response(json.dumps(data), mimetype='application/json', headers={'Cache-Control': 'no-cache'}) 
 
     if request.method == 'POST':
         with open('hosts.json', 'w+') as file: 
