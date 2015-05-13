@@ -12,8 +12,52 @@ var fields = [
   {name: 'gateway'},
   {name: 'status', icon: 'flag', color: {1: 'text-muted', 2: 'text-success'}}
 ]
+var modalTitle = 'Host'
+
+$.fn.serializeObject = function()
+{
+   var o = {};
+   var a = this.serializeArray();
+   $.each(a, function() {
+       if (o[this.name]) {
+           if (!o[this.name].push) {
+               o[this.name] = [o[this.name]];
+           }
+           o[this.name].push(this.value || '');
+       } else {
+           o[this.name] = this.value || '';
+       }
+   });
+   return o;
+};
 
 var ModalForm = React.createClass({
+  componentDidMount: function() {
+    // Attach a submit handler to the form
+    $("#crudForm").submit(function(event) {
+      // Stop form from submitting normally
+      event.preventDefault();
+      var data = JSON.stringify($('#crudForm').serializeObject());
+      data = $('#crudForm').serializeObject();
+      console.log(data)
+      $.ajax({
+        type: "POST",
+        url: "/host",
+        data: data,
+        dataType: "text"
+      }). 
+      done(function(data) {
+        console.log("ok")
+        $('#modalForm').modal('hide')
+        React.unmountComponentAtNode(document.getElementById('hosts'))
+        React.render(
+          <HostsTable />,
+          document.getElementById('hosts')
+        )   
+      });
+    });
+  },
+
   render: function() {    
     var formGroups = []
     fields.forEach(function(field) {
@@ -26,39 +70,58 @@ var ModalForm = React.createClass({
     })
      
     return (
-      <div className="modal fade" id="hostModal" tabindex="-1" role="dialog" aria-labelledby="hostModalLabel" aria-hidden="true">
+      <div className="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="hostModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-sm">
+          <form id="crudForm">
           <div className="modal-content">
             <div className="modal-header">
               <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 className="modal-title" id="myModalLabel">Add Host</h4>
+              <h4 className="modal-title" id="modalTitle">Add Host</h4>
             </div>
             <div className="modal-body">
-              {formGroups}
+                {formGroups}
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-success">Add Host</button>
+              <button type="submit" className="btn btn-success" id="actionBtn">Apply</button>
             </div>
           </div>
+          </form>
         </div>
       </div>    
     ); 
   } 
 })
 
-var EditButton = React.createClass({
+var AddButton = React.createClass({
+  handleClick: function() {
+    $('#modalTitle').text('Add ' + modalTitle) 
+    $('#actionButton').attr('value', 'add')
+  },
+
+  render: function() {
+    return (
+      <a href="#" data-toggle="modal" data-target="#modalForm" onClick={this.handleClick}>
+        <span className="glyphicon glyphicon-plus text-muted" aria-hidden="true"></span>
+      </a>
+    );
+  }
+})
+
+var UpdateButton = React.createClass({
   handleClick: function() {
     var host = this.props.host
     fields.forEach(function(field) {
       $('#' + field.name).val(host[field.name]); 
     })
+    $('#modalTitle').text('Update ' + modalTitle) 
+    $('#actionButton').attr('value', 'update')
   },
 
   render: function() {
     return (
-      <a href="#" data-toggle="modal" data-target="#hostModal" onClick={this.handleClick}>
-        <span className={"glyphicon glyphicon-" + this.props.icon + " text-muted"} aria-hidden="true"></span>
+      <a href="#" data-toggle="modal" data-target="#modalForm" onClick={this.handleClick}>
+        <span className="glyphicon glyphicon-edit text-muted" aria-hidden="true"></span>
       </a>
     );
   }
@@ -70,11 +133,13 @@ var DeleteButton = React.createClass({
     fields.forEach(function(field) {
       $('#' + field.name).val(host[field.name]); 
     })
+    $('#modalTitle').text('Delete ' + modalTitle) 
+    $('#actionButton').attr('value', 'delete')
   },
 
   render: function() {
     return (
-      <a href="#" data-toggle="modal" data-target="#hostModal" onClick={this.handleClick}>
+      <a href="#" data-toggle="modal" data-target="#modalForm" onClick={this.handleClick}>
         <span className="glyphicon glyphicon-minus text-muted" aria-hidden="true"></span>
       </a>
     );
@@ -103,7 +168,7 @@ var HostRow = React.createClass({
         cells.push(<RichTextCell key={key} icon={field.icon} color={color} />) 
       }
     })
-    cells.push(<td key='plus'><EditButton icon="edit" host={this.props.host} /></td>)  
+    cells.push(<td key='plus'><UpdateButton host={this.props.host} /></td>)  
     cells.push(<td key='minus'><DeleteButton host={this.props.host} /></td>)  
 
     return (
@@ -127,6 +192,12 @@ var HostsTable = React.createClass({
         });
       }
     }.bind(this));
+
+    $('#modalForm').on('hidden.bs.modal', function (e) {
+      fields.forEach(function(field) {
+        $('#' + field.name).val(''); 
+      })
+    })
   },
 
   render: function() {
@@ -144,7 +215,7 @@ var HostsTable = React.createClass({
     fields.forEach(function(field) {
       heads.push(<th key={field.name}>{field.name}</th>)  
     })
-    heads.push(<th key='plus'><EditButton icon="plus" /></th>)
+    heads.push(<th key='plus'><AddButton /></th>)
     heads.push(<th key='minus'></th>)
 
     return (

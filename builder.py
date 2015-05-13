@@ -15,7 +15,7 @@ from subprocess import Popen, PIPE
 from flask import Flask, Response, request
 
 import atexit
-
+from host import write
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
@@ -24,15 +24,14 @@ app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
 def addHosts():
     if request.method == 'GET':
         with open('hosts.json', 'r+') as file:
-            hosts = json.load(file)
+            hosts = json.load(file).values()
         data = {"data": hosts}
 
         print data
         return Response(json.dumps(data), mimetype='application/json', headers={'Cache-Control': 'no-cache'}) 
-
     if request.method == 'POST':
-        with open('hosts.json', 'w+') as file: 
-            file.write(json.dumps(hosts, indent=4, separators=(',', ': ')))
+        host = request.form.to_dict()
+        write(host)        
         return 'Ok'
 
 @app.route("/esxi/installed")
