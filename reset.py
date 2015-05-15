@@ -32,6 +32,7 @@ import argparse
 import atexit
 import getpass
 
+import json
 
 def GetArgs():
    """
@@ -137,6 +138,17 @@ def PrintVmInfo(vm, depth=1):
 esxis = ['esxi-01', 'esxi-02']
 
 def reset(vm, si):
+    f = open('hosts.json', 'r')
+    hostSet = json.load(f) 
+    f.close()
+    for k, v in hostSet.items():
+        v['status'] = 1
+        hostSet[k] = v
+    f = open('hosts.json', 'w')
+    json.dump(hostSet, f, indent=2)
+    f.close()
+ 
+
     if hasattr(vm, 'childEntity'):
         vmList = vm.childEntity
         for c in vmList:
@@ -190,6 +202,10 @@ def reset(vm, si):
             task = vm.Reconfigure(vmConfigSpec)
             WaitForTasks([task], si)
             print('Adding is done') 
+
+            task = vm.PowerOn()
+            WaitForTasks([task], si)
+            print('PowerOn is done') 
 
 def main():
    """

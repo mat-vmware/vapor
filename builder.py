@@ -15,7 +15,7 @@ from subprocess import Popen, PIPE
 from flask import Flask, Response, request
 
 import atexit
-from host import write
+from host import write, findByMac
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
@@ -24,7 +24,10 @@ app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
 def addHosts():
     if request.method == 'GET':
         with open('hosts.json', 'r+') as file:
-            hosts = json.load(file).values()
+            hostSet = json.load(file)
+        
+        hosts = [hostSet[x] for x in sorted(hostSet.keys())] 
+        
         data = {"data": hosts}
 
         print data
@@ -39,6 +42,9 @@ def esxiInstalled():
     mac = request.args.get('mac')
     print(request.remote_addr)
     print(mac)
+    host = findByMac(mac) 
+    host['status'] = 2
+    write(host)
     p = Popen(["ssh", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null", "-o", "LogLevel=quiet", "root@" + request.remote_addr, "esxcli hardware platform get"], stdout=PIPE, stderr=PIPE)
     out, error = p.communicate()
     print(out)
