@@ -178,6 +178,23 @@ var HostRow = React.createClass({
 })
 
 var HostsTable = React.createClass({
+  poll: function() {
+    component = this
+    console.log('polling')
+    setTimeout(function() {
+      $.ajax({
+        url: "/host"
+      }). 
+      done(function(data) {
+        console.log("polling done")
+        component.setState({
+          data: data.data
+        });
+        component.poll()        
+      });
+    }, 30000)
+  },
+
   getInitialState: function() {
     return {
         data: [] 
@@ -192,7 +209,7 @@ var HostsTable = React.createClass({
         });
       }
     }.bind(this));
-
+    this.poll()
     $('#modalForm').on('hidden.bs.modal', function (e) {
       fields.forEach(function(field) {
         $('#' + field.name).val(''); 
