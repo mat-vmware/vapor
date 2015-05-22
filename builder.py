@@ -16,6 +16,7 @@ from flask import Flask, Response, request
 
 import atexit
 from host import write, findByMac
+from pod import list, newPod
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
@@ -35,6 +36,20 @@ def addHosts():
     if request.method == 'POST':
         host = request.form.to_dict()
         write(host)        
+        return 'Ok'
+
+@app.route('/vpod', methods=['GET', 'POST'])
+def newPod():
+    if request.method == 'GET':
+        pods = list()
+        
+        data = {"data": pods}
+
+        print data
+        return Response(json.dumps(data), mimetype='application/json', headers={'Cache-Control': 'no-cache'}) 
+    if request.method == 'POST':
+        pod = request.form.to_dict()
+        newPod(pod)        
         return 'Ok'
 
 @app.route("/esxi/installed")

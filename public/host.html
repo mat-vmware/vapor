@@ -28,7 +28,6 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right" id="mainMenu">
             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-            <li><a href="#definitions">Definitions</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Help</a></li>
           </ul>
@@ -40,276 +39,285 @@
       <div role="tabpanel" class="tab-pane active" id="home">
         <div class="container">
           <h1 class="page-header">vPod List</h1>
-          <table class="table table-striped">
-            <thead>
-              <th>#</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th><a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
-            </thead>
-          </table> 
-        </div>
-      </div>
+          <div id="podsTable" />
+        </div><!-- container -->
+      </div><!-- tabpanel -->
+    </div><!-- tab-content -->
 
-      <div role="tabpanel" class="tab-pane" id="definitions">
-        <div class="container-fluid">
-          <div class="row">
-    
-            <div class="col-xs-2 sidebar">
-              <ul class="nav nav-sidebar" id="definitionWizard">
-                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li> 
-                <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li> 
-                <li role="presentation"><a href="#hardware" aria-controls="hardware" role="tab" data-toggle="tab">Hardware</a></li> 
-                <li role="presentation"><a href="#networking" aria-controls="networking" role="tab" data-toggle="tab">Networking</a></li> 
-                <li role="presentation"><a href="#security" aria-controls="security" role="tab" data-toggle="tab">Security</a></li> 
-                <li role="presentation"><a href="#completion" aria-controls="completion" role="tab" data-toggle="tab">Completion</a></li> 
-              </ul>
-            </div><!-- sidebar -->
-    
-            <div class="col-xs-10 col-xs-offset-2 tab-content main">
-              <h1 class="page-header">Build a vPod</h1>
+    <div class="container-fluid" id="wizard">
+      <div class="row">
 
-              <div role="tabpanel" class="tab-pane" id="profile">
-                <h3>vPod Profile</h3>
-                <form>
-                  <div class="row">
-                    <div class="col-xs-4">
-                      <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="vpod-customer" />
-                      </div>
-                    </div>
-                    <div class="col-xs-8">
-                      <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" class="form-control" id="description" placeholder="Customizing a vpod for a customer." />
-                      </div>
-                    </div>
+        <div class="col-xs-2 sidebar">
+          <ul class="nav nav-sidebar" id="definitionWizard">
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li> 
+            <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li> 
+            <li role="presentation"><a href="#hardware" aria-controls="hardware" role="tab" data-toggle="tab">Hardware</a></li> 
+            <li role="presentation"><a href="#networking" aria-controls="networking" role="tab" data-toggle="tab">Networking</a></li> 
+            <li role="presentation"><a href="#security" aria-controls="security" role="tab" data-toggle="tab">Security</a></li> 
+            <li role="presentation"><a href="#completion" aria-controls="completion" role="tab" data-toggle="tab">Completion</a></li> 
+          </ul>
+        </div><!-- sidebar -->
+
+        <div class="col-xs-10 col-xs-offset-2 tab-content main">
+          <h1 class="page-header">Build a vPod</h1>
+
+          <div role="tabpanel" class="tab-pane" id="profile">
+            <h3>vPod Profile</h3>
+            <form id="profileForm">
+              <div class="row">
+                <div class="col-xs-4">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="vpod-customer" />
                   </div>
+                </div>
+                <div class="col-xs-8">
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" placeholder="Customizing a vpod for a customer." />
+                  </div>
+                </div>
+              </div>
+  
+              <button type="submit" class="btn btn-default">Apply</button>
+            </form>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="packages">
+            <h3>Select VMware SDDC Products</h3>
+            <div class="row">
+              <div class="col-xs-6 col-md-3">
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                  <span class="glyphicon glyphicon-th-large"></span><br/>
+                  <span>vSphere</span>
+                </button>
+              </div>
       
-                  <button type="submit" class="btn btn-default">Apply</button>
-                </form>
+              <div class="col-xs-6 col-md-3">
+                <button type="button" class="btn btn-primary btn-lg btn-block" disabled>
+                  <span class="glyphicon glyphicon-scale"></span><br/>
+                  <span>vSOM</span>
+                </button>
               </div>
-    
-              <div role="tabpanel" class="tab-pane" id="packages">
-                <h3>Select VMware SDDC Products</h3>
-                <div class="row">
-                  <div class="col-xs-6 col-md-3">
-                    <button type="button" class="btn btn-primary btn-lg btn-block">
-                      <span class="glyphicon glyphicon-th-large"></span><br/>
-                      <span>vSphere</span>
-                    </button>
-                  </div>
-          
-                  <div class="col-xs-6 col-md-3">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" disabled>
-                      <span class="glyphicon glyphicon-scale"></span><br/>
-                      <span>vSOM</span>
-                    </button>
-                  </div>
-          
-                  <div class="col-xs-6 col-md-3">
-                    <button type="button" class="btn btn-primary btn-lg btn-block" disabled>
-                      <span class="glyphicon glyphicon-cloud"></span><br/>
-                      <span>vCloud</span>
-                    </button>
-                  </div>
-                </div>            
-              </div>
-    
-              <div role="tabpanel" class="tab-pane" id="hardware">
-                <h3>Improting MAC Addresses</h3>           
-                <div class="row">
-                  <div class="col-xs-5">
-                    <form>
-                      <div class="form-group">
-                        <label for="exampleInputFile">File</label>
-                        <input type="file" id="exampleInputFile">
-                      </div>
-                      <button type="submit" class="btn btn-default">Import</button>
-                    </form>
-                  </div>
-                  <div class="col-xs-2">
-                    <br />
-                    <br />
-                    <h3>OR</h3>
-                  </div>
-                  <div class="col-xs-5">
-                    <form>
-                      <div class="form-group">
-                        <label>MAC Addresses...</label>
-                        <textarea class="form-control" rows="10" placeholder="00-50-56-99-d9-da"></textarea>
-                      </div>
-                      <button type="submit" class="btn btn-default">Import</button>
-                    </form>
-                  </div>
-                </div><!-- row -->    
-              </div>
-    
-              <div role="tabpanel" class="tab-pane" id="networking">
-                <h3>ESXi Network Settings</h3>           
-                <form>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiHostnamePrefix">ESXi Hostname Prefix</label>
-                        <input type="text" class="form-control" id="esxiHostnamePrefix" placeholder="esxi-" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiHostnameIterator">ESXi Hostname Iterator</label>
-                        <input type="text" class="form-control" id="esxiHostnameIterator" placeholder="0001" />
-                      </div>
-                    </div>
-                  </div>
       
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiIpStart">ESXi IP Start From</label>
-                        <input type="text" class="form-control" id="esxiIpStart" placeholder="172.20.10.101" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiIpEnd">ESXi IP End To</label>
-                        <input type="text" class="form-control" id="esxiIpEnd" placeholder="172.20.10.110" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiNetmask">ESXi Netmask</label>
-                        <input type="text" class="form-control" id="esxiNetmask" placeholder="255.255.0.0" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiGateway">ESXi Gateway</label>
-                        <input type="text" class="form-control" id="esxiGateway" placeholder="172.20.10.1" />
-                      </div>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-default">Apply</button>
-                </form>
-                  
-                <hr />
-      
-                <h3>vCenter Server Network Settings </h3>
+              <div class="col-xs-6 col-md-3">
+                <button type="button" class="btn btn-primary btn-lg btn-block" disabled>
+                  <span class="glyphicon glyphicon-cloud"></span><br/>
+                  <span>vCloud</span>
+                </button>
+              </div>
+            </div>            
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="hardware">
+            <h3>Improting MAC Addresses</h3>           
+            <div class="row">
+              <div class="col-xs-5">
                 <form>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterHostname">vCenter Server Hostname</label>
-                        <input type="text" class="form-control" id="vCenterHostname" placeholder="vcenter" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterIp">vCenter Server IP Address</label>
-                        <input type="text" class="form-control" id="vCenterIp" placeholder="172.20.10.2" />
-                      </div>
-                    </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">File</label>
+                    <input type="file" id="exampleInputFile">
                   </div>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterNetmask">vCenter Server Netmask</label>
-                        <input type="text" class="form-control" id="vCenterNetmask" placeholder="255.255.0.0" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterGateway">vCenter Server Gateway</label>
-                        <input type="text" class="form-control" id="vCenterGateway" placeholder="172.20.10.1" />
-                      </div>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-default">Apply</button>
+                  <button type="submit" class="btn btn-default">Import</button>
                 </form>
               </div>
-    
-              <div role="tabpanel" class="tab-pane" id="security">
-                <h3>Security Settings </h3>
-                <form>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiPassword">ESXi Password</label>
-                        <input type="password" class="form-control" id="esxiPassword" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="esxiPassword2">Confirm ESXi Password</label>
-                        <input type="password" class="form-control" id="esxiPassword2" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterPassword">vCenter Password</label>
-                        <input type="password" class="form-control" id="vCenterPassword" />
-                      </div>
-                    </div>
-                    <div class="col-xs-6">
-                      <div class="form-group">
-                        <label for="vCenterPassword2">Confirm vCenter Password</label>
-                        <input type="password" class="form-control" id="vCenterPassword2" />
-                      </div>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-default">Apply</button>
-                </form>
-     
+              <div class="col-xs-2">
+                <br />
+                <br />
+                <h3>OR</h3>
               </div>
-    
-              <div role="tabpanel" class="tab-pane" id="completion">
-                <h3>Hosts</h3>
-                <div id="hosts"></div>
-    
+              <div class="col-xs-5">
                 <form>
-                  <div class="row">
-                    <div class="col-xs-4"></div>
-                    <div class="col-xs-2"><button type="submit" class="btn btn-primary btn-block">Validate</button></div>
-                    <div class="col-xs-2"><button type="submit" class="btn btn-success btn-block">Build</button></div>
-                    <div class="col-xs-4"></div>
+                  <div class="form-group">
+                    <label>MAC Addresses...</label>
+                    <textarea class="form-control" rows="10" placeholder="00-50-56-99-d9-da"></textarea>
                   </div>
+                  <button type="submit" class="btn btn-default">Import</button>
                 </form>
               </div>
-    
-            </div><!-- main -->
-          </div><!-- row -->      
-        </div><!-- container-fluid -->   
+            </div><!-- row -->    
+          </div>
 
+          <div role="tabpanel" class="tab-pane" id="networking">
+            <h3>ESXi Network Settings</h3>           
+            <form>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiHostnamePrefix">ESXi Hostname Prefix</label>
+                    <input type="text" class="form-control" id="esxiHostnamePrefix" placeholder="esxi-" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiHostnameIterator">ESXi Hostname Iterator</label>
+                    <input type="text" class="form-control" id="esxiHostnameIterator" placeholder="0001" />
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiIpStart">ESXi IP Start From</label>
+                    <input type="text" class="form-control" id="esxiIpStart" placeholder="172.20.10.101" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiIpEnd">ESXi IP End To</label>
+                    <input type="text" class="form-control" id="esxiIpEnd" placeholder="172.20.10.110" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiNetmask">ESXi Netmask</label>
+                    <input type="text" class="form-control" id="esxiNetmask" placeholder="255.255.0.0" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiGateway">ESXi Gateway</label>
+                    <input type="text" class="form-control" id="esxiGateway" placeholder="172.20.10.1" />
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Apply</button>
+            </form>
+              
+            <hr />
+  
+            <h3>vCenter Server Network Settings </h3>
+            <form>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterHostname">vCenter Server Hostname</label>
+                    <input type="text" class="form-control" id="vCenterHostname" placeholder="vcenter" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterIp">vCenter Server IP Address</label>
+                    <input type="text" class="form-control" id="vCenterIp" placeholder="172.20.10.2" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterNetmask">vCenter Server Netmask</label>
+                    <input type="text" class="form-control" id="vCenterNetmask" placeholder="255.255.0.0" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterGateway">vCenter Server Gateway</label>
+                    <input type="text" class="form-control" id="vCenterGateway" placeholder="172.20.10.1" />
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Apply</button>
+            </form>
+          </div>
 
-      </div>
-    </div>
+          <div role="tabpanel" class="tab-pane" id="security">
+            <h3>Security Settings </h3>
+            <form>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiPassword">ESXi Password</label>
+                    <input type="password" class="form-control" id="esxiPassword" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="esxiPassword2">Confirm ESXi Password</label>
+                    <input type="password" class="form-control" id="esxiPassword2" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterPassword">vCenter Password</label>
+                    <input type="password" class="form-control" id="vCenterPassword" />
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="vCenterPassword2">Confirm vCenter Password</label>
+                    <input type="password" class="form-control" id="vCenterPassword2" />
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Apply</button>
+            </form>
+ 
+          </div>
 
+          <div role="tabpanel" class="tab-pane" id="completion">
+            <h3>Hosts</h3>
+            <div id="hosts"></div>
+
+            <form>
+              <div class="row">
+                <div class="col-xs-4"></div>
+                <div class="col-xs-2"><button type="submit" class="btn btn-primary btn-block">Validate</button></div>
+                <div class="col-xs-2"><button type="submit" class="btn btn-success btn-block">Build</button></div>
+                <div class="col-xs-4"></div>
+              </div>
+            </form>
+          </div>
+
+        </div><!-- main -->
+      </div><!-- row -->      
+    </div><!-- container-fluid -->   
     <!--Host Modal -->
     <script type="text/jsx" src="scripts/host.js"></script>
+    <script type="text/jsx" src="scripts/pod.js"></script>
 
     <script>
-      $('#mainMenu a').click(function (e) {
-        console.log(this)
-        e.preventDefault()
-        $(this).tab('show')
-      })
+      $('#wizard').hide();
+      $(document).ready(function() {
+        $('#mainMenu a').click(function (e) {
+          console.log(this)
+          e.preventDefault()
+          $(this).tab('show')
+        })
+  
+        $('#home a').click(function (e) {
+          $('#home').hide()
+          console.log(this)
+          $('#wizard').show();
+          $("[href='#profile']").tab('show')
+        })
+  
+        $('#definitionWizard a').click(function (e) {
+          e.preventDefault()
+          $(this).tab('show')
+        })
+  
+        $("#profileForm").submit(function(event) {
+          event.preventDefault();
+          var data = $('#profileForm').serializeObject();
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/vpod",
+            data: data,
+            dataType: "text"
+          }). 
+          done(function(data) {
+            console.log("ok")
+          });
+        })
 
-      $('#home a').click(function (e) {
-        console.log(this)
-        $("[href='#definitions']").tab('show')
-        $("[href='#profile']").tab('show')
-      })
-
-      $('#definitionWizard a').click(function (e) {
-        e.preventDefault()
-        $(this).tab('show')
-      })
-    </script>
+      });
+   </script>
 
  </body>
 </html>
