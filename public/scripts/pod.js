@@ -1,11 +1,26 @@
 
 var PodRow = React.createClass({
+  handleClick: function(e) {
+    $('#home').hide()
+    $('#wizard').show();
+    $("[href='#profile']").tab('show')
+  },
+
   render: function() {
+    var component = this
+    var createAction = function() {
+      if(component.props.pod.name)
+        return <a href="#" onClick={component.handleClick}><span className="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a> 
+      else 
+        return <span></span>
+    }
+
     return (
       <tr>
+        <td>{this.props.index}</td>
         <td>{this.props.pod.name}</td>
         <td>{this.props.pod.description}</td>
-        <td></td>
+        <td>{createAction()}</td>
       </tr>
     );
   } 
@@ -46,11 +61,11 @@ var PodsTable = React.createClass({
               <th>#</th>
               <th>Name</th>
               <th>Description</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
         </table>
-        <ModalForm />
       </div>
     );
   }

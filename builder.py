@@ -20,6 +20,7 @@ from pod import list, newPod
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 app.add_url_rule('/', 'root', lambda: app.send_static_file('host.html'))
+app.add_url_rule('/panel', 'panel', lambda: app.send_static_file('panel.html'))
 
 @app.route('/host', methods=['GET', 'POST'])
 def addHosts():
