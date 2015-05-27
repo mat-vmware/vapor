@@ -1,32 +1,58 @@
+var POD_NIL = {}
+
+var AddOrEditBtn = React.createClass({
+   handleClick: function(e) {
+    React.render(
+      <PodPanel podDef={this.props.pod} />, 
+      document.getElementById('podPanel')
+    )
+    $('#podList').hide()
+    $('#podPanel').show();
+    $("[href='#profile']").tab('show')
+  },
+  
+  render: function() {
+    var icon = 'glyphicon glyphicon-list-alt' 
+    if(this.props.type == 'add')
+      icon = 'glyphicon glyphicon-plus' 
+    return (<a href="#" onClick={this.handleClick}><span className={icon} aria-hidden="true"></span></a>);
+  }
+})
+
 
 var PodRow = React.createClass({
   handleClick: function(e) {
-    $('#home').hide()
-    $('#wizard').show();
+    $('#podList').hide()
+    $('#podPanel').show();
     $("[href='#profile']").tab('show')
   },
 
   render: function() {
-    var component = this
-    var createAction = function() {
-      if(component.props.pod.name)
-        return <a href="#" onClick={component.handleClick}><span className="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a> 
-      else 
-        return <span></span>
-    }
-
     return (
       <tr>
         <td>{this.props.index}</td>
         <td>{this.props.pod.name}</td>
         <td>{this.props.pod.description}</td>
-        <td>{createAction()}</td>
+        <td><AddOrEditBtn type='edit' pod={this.props.pod} /></td>
       </tr>
     );
   } 
 })
 
-var PodsTable = React.createClass({
+var PhRow = React.createClass({
+  render: function() {
+    return (
+      <tr>
+        <td>{this.props.index}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    );
+  }
+}) 
+
+var PodTable = React.createClass({
   getInitialState: function() {
     return {
         data: [] 
@@ -50,7 +76,7 @@ var PodsTable = React.createClass({
     })
     var pod = {name: '', description: ''}
     for (i = rows.length; i < 8; i++) {
-        rows.push(<PodRow pod={pod} key={rows.length + 1} index={rows.length + 1}/>); 
+        rows.push(<PhRow key={rows.length + 1} index={rows.length + 1} />); 
     }
 
     return (
@@ -61,7 +87,7 @@ var PodsTable = React.createClass({
               <th>#</th>
               <th>Name</th>
               <th>Description</th>
-              <th></th>
+              <th><AddOrEditBtn type='add' pod={POD_NIL} /></th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -72,6 +98,6 @@ var PodsTable = React.createClass({
 })
 
 React.render(
-  <PodsTable />,
-  document.getElementById('podsTable')
+  <PodTable />,
+  document.getElementById('podTable')
 )

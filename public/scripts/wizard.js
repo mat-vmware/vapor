@@ -5,28 +5,65 @@ var POD_DEF = {
 
 var POD_NIL = {}
 
+var CancelBtn = React.createClass({
+  handleClick: function(e) {
+    React.unmountComponentAtNode(document.getElementById('podPanel'))
+    $('#podList').show()
+    $('#podPanel').hide()
+  },
+
+  render: function() {
+    return (
+      <button type="button" className="btn btn-danger" onClick={this.handleClick}>Cancel</button>
+    );
+  }  
+});
+
+var ApplyBtn = React.createClass({
+  render: function() {
+    return (
+      <button type="submit" className="btn btn-success"> Apply</button>
+    );
+  }  
+});
+
 var PodProfile = React.createClass({
+  handleSubmit: function(event) {
+    event.preventDefault();
+    var data = $('#profileForm').serializeObject();
+    console.log(data)
+    $.ajax({
+      type: "POST",
+      url: "/vpod",
+      data: data,
+      dataType: "text"
+    }). 
+    done(function(data) {
+      console.log("ok")
+    });
+  },
+
   render: function() {
     return (
       <div role="tabpanel" className="tab-pane active" id="profile">
         <h3>vPOD Profile</h3>
-        <form id="profileForm">
+        <form onSubmit={this.handleSubmit}>
           <div className="row">
             <div className="col-xs-4">
               <div className="form-group">
-                <label for="name">Name</label>
+                <label htmlFor="name">Name</label>
                 <input type="text" className="form-control" id="name" placeholder="vpod-customer" defaultValue={this.props.podDef.name} />
               </div>
             </div>
             <div className="col-xs-8">
               <div className="form-group">
-                <label for="description">Description</label>
+                <label htmlFor="description">Description</label>
                 <input type="text" className="form-control" id="description" placeholder="Customizing a vPOD for a customer." defaultValue={this.props.podDef.description} />
               </div>
             </div>
           </div>
-
-          <button type="submit" className="btn btn-default">Apply</button>
+          
+          <ApplyBtn />
         </form>
       </div>
     );
@@ -74,7 +111,7 @@ var PodHardware = React.createClass({
           <div className="col-xs-5">
             <form>
               <div className="form-group">
-                <label for="exampleInputFile">File</label>
+                <label htmlFor="exampleInputFile">File</label>
                 <input type="file" id="exampleInputFile" />
               </div>
               <button type="submit" className="btn btn-default">Import</button>
@@ -142,13 +179,13 @@ var PodNetwork = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiHostnamePrefix">ESXi Hostname Prefix</label>
+                <label htmlFor="esxiHostnamePrefix">ESXi Hostname Prefix</label>
                 <input type="text" className="form-control" id="esxiHostnamePrefix" placeholder="esxi-" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiHostnameIterator">ESXi Hostname Iterator</label>
+                <label htmlFor="esxiHostnameIterator">ESXi Hostname Iterator</label>
                 <input type="text" className="form-control" id="esxiHostnameIterator" placeholder="0001" />
               </div>
             </div>
@@ -157,13 +194,13 @@ var PodNetwork = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiIpStart">ESXi IP Start From</label>
+                <label htmlFor="esxiIpStart">ESXi IP Start From</label>
                 <input type="text" className="form-control" id="esxiIpStart" placeholder="172.20.10.101" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiIpEnd">ESXi IP End To</label>
+                <label htmlFor="esxiIpEnd">ESXi IP End To</label>
                 <input type="text" className="form-control" id="esxiIpEnd" placeholder="172.20.10.110" />
               </div>
             </div>
@@ -171,13 +208,13 @@ var PodNetwork = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiNetmask">ESXi Netmask</label>
+                <label htmlFor="esxiNetmask">ESXi Netmask</label>
                 <input type="text" className="form-control" id="esxiNetmask" placeholder="255.255.0.0" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiGateway">ESXi Gateway</label>
+                <label htmlFor="esxiGateway">ESXi Gateway</label>
                 <input type="text" className="form-control" id="esxiGateway" placeholder="172.20.10.1" />
               </div>
             </div>
@@ -192,13 +229,13 @@ var PodNetwork = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterHostname">vCenter Server Hostname</label>
+                <label htmlFor="vCenterHostname">vCenter Server Hostname</label>
                 <input type="text" className="form-control" id="vCenterHostname" placeholder="vcenter" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterIp">vCenter Server IP Address</label>
+                <label htmlFor="vCenterIp">vCenter Server IP Address</label>
                 <input type="text" className="form-control" id="vCenterIp" placeholder="172.20.10.2" />
               </div>
             </div>
@@ -206,13 +243,13 @@ var PodNetwork = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterNetmask">vCenter Server Netmask</label>
+                <label htmlFor="vCenterNetmask">vCenter Server Netmask</label>
                 <input type="text" className="form-control" id="vCenterNetmask" placeholder="255.255.0.0" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterGateway">vCenter Server Gateway</label>
+                <label htmlFor="vCenterGateway">vCenter Server Gateway</label>
                 <input type="text" className="form-control" id="vCenterGateway" placeholder="172.20.10.1" />
               </div>
             </div>
@@ -233,13 +270,13 @@ var PodSecurity = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiPassword">ESXi Password</label>
+                <label htmlFor="esxiPassword">ESXi Password</label>
                 <input type="password" className="form-control" id="esxiPassword" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="esxiPassword2">Confirm ESXi Password</label>
+                <label htmlFor="esxiPassword2">Confirm ESXi Password</label>
                 <input type="password" className="form-control" id="esxiPassword2" />
               </div>
             </div>
@@ -247,13 +284,13 @@ var PodSecurity = React.createClass({
           <div className="row">
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterPassword">vCenter Password</label>
+                <label htmlFor="vCenterPassword">vCenter Password</label>
                 <input type="password" className="form-control" id="vCenterPassword" />
               </div>
             </div>
             <div className="col-xs-6">
               <div className="form-group">
-                <label for="vCenterPassword2">Confirm vCenter Password</label>
+                <label htmlFor="vCenterPassword2">Confirm vCenter Password</label>
                 <input type="password" className="form-control" id="vCenterPassword2" />
               </div>
             </div>
@@ -305,7 +342,7 @@ var PodSidebar = React.createClass({
 var PodContent = React.createClass({
   render: function() {
     return (
-      <div className="col-xs-10 col-xs-offset-2 tab-content main" id="wizard">
+      <div className="col-xs-10 col-xs-offset-2 tab-content main">
         <h1 className="page-header">Build a vPOD</h1>
         <PodProfile podDef={this.props.podDef} />
         <PodPackages />
@@ -313,6 +350,9 @@ var PodContent = React.createClass({
         <PodNetwork />
         <PodSecurity />
         <PodCompletion />
+        
+        <hr />  
+        <CancelBtn />
       </div>
     );
   }
@@ -324,7 +364,7 @@ var PodPanel = React.createClass({
 
   render: function() {
     return (
-      <div className="container-fluid" id="wizard">
+      <div className="container-fluid">
         <div className="row">
           <PodSidebar />
           <PodContent podDef={this.props.podDef} />            
@@ -334,7 +374,3 @@ var PodPanel = React.createClass({
   }
 });
 
-React.render(
-  <PodPanel podDef={POD_NIL} />, 
-  document.getElementById('podPanel')
-);
